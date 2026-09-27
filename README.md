@@ -2,8 +2,6 @@
   <img src="assets/header.svg" width="100%" alt="Hasan Can Yaşar. Veri, dil modelleri, otomasyon. Yıldızlar h4s0 yazısına dizilip dağılıyor.">
 </p>
 
-Ben Hasan Can, kısaca **h4s0**. Kod yazıyorum, yeni araçları kurcalıyorum, işime yarayanı kendim kuruyorum.
-
 <p align="center">
   <img src="assets/terminal.svg" width="100%" alt="Terminal: whoami, araçlar ve şu an üzerinde çalıştıklarım.">
 </p>
