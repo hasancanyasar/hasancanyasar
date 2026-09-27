@@ -1,8 +1,8 @@
 <p align="center">
-  <img src="assets/header.svg" width="100%" alt="Hasan Can Yaşar (h4s0). Gece gökyüzünde dağınık yıldızlar düzenli bir tabloya diziliyor.">
+  <img src="assets/header.svg" width="100%" alt="Hasan Can Yaşar. Veri, dil modelleri, otomasyon. Yıldızlar h4s0 yazısına dizilip dağılıyor.">
 </p>
 
-Ben Hasan Can, kısaca **h4s0**. Dağınık veriyi toplayıp düzenli hale getiren küçük sistemler kurmayı seviyorum: web'den veri çeken betikler, dil modelleriyle metin sınıflandırma, kendi bilgisayarımda sessizce çalışan otomasyonlar. Burada bunların açıkta durabilen kısmı var.
+Ben Hasan Can, kısaca **h4s0**. Kod yazıyorum, yeni araçları kurcalıyorum, işime yarayanı kendim kuruyorum.
 
 <p align="center">
   <img src="assets/terminal.svg" width="100%" alt="Terminal: whoami, araçlar ve şu an üzerinde çalıştıklarım.">
@@ -17,10 +17,4 @@ Ben Hasan Can, kısaca **h4s0**. Dağınık veriyi toplayıp düzenli hale getir
 <p align="center">
   <a href="https://github.com/hasancanyasar/BIST100---WebScraping"><img src="assets/kart-bist100.svg" width="49%" alt="BIST100 Web Scraping: hisse verisini çekip SQLite'a yazan Python betiği."></a>
   <a href="https://github.com/hasancanyasar/hasoDevWebV1.0"><img src="assets/kart-hasodev.svg" width="49%" alt="hasoDev v1: ilk kişisel sitem."></a>
-</p>
-
-<br>
-
-<p align="center">
-  <sub>dağınık veri girer, düzenli tablo çıkar</sub>
 </p>
