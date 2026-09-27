@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 340" width="600" height="340" role="img" aria-label="SwanticOS">
+<style>.s{font-family:-apple-system,BlinkMacSystemFont,'SF Pro Display','Segoe UI',Inter,Roboto,Helvetica,Arial,sans-serif}.m{font-family:ui-monospace,'SF Mono',SFMono-Regular,Menlo,Consolas,'Liberation Mono',monospace;font-weight:500}</style>
+<defs>
+<linearGradient id="b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#111A2B"/><stop offset="1" stop-color="#0A0F1A"/></linearGradient>
+<radialGradient id="g" cx="100%" cy="0%" r="75%"><stop offset="0" stop-color="#1D3B6E" stop-opacity=".6"/><stop offset="1" stop-color="#1D3B6E" stop-opacity="0"/></radialGradient>
+<linearGradient id="i" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#0A84FF"/><stop offset="1" stop-color="#5E5CE6"/></linearGradient>
+</defs>
+<rect x="1" y="1" width="598" height="338" rx="28" fill="url(#b)"/>
+<rect x="1" y="1" width="598" height="338" rx="28" fill="url(#g)"/>
+<rect x="1" y="1" width="598" height="338" rx="28" fill="none" stroke="#1F2A3D" stroke-width="1.5"/>
+<rect x="36" y="34" width="56" height="56" rx="15" fill="url(#i)"/>
+<g transform="translate(47 45) scale(1.42)" fill="none" stroke="#fff" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></g>
+<rect x="494" y="40" width="72" height="30" rx="15" fill="#FFFFFF" fill-opacity=".07" stroke="#FFFFFF" stroke-opacity=".12"/><text x="530" y="60" text-anchor="middle" class="s" style="font-size:14px" fill="#AEB6C4">özel</text>
+<text x="36" y="136" class="m" style="font-size:14px;letter-spacing:2px" fill="#64D2FF">HAFIZA</text>
+<text x="36" y="174" class="s" style="font-size:31px;font-weight:700;letter-spacing:-.5px" fill="#F5F5F7">SwanticOS</text>
+<text x="36" y="210" class="s" style="font-size:19px" fill="#AEB6C4">Kişisel ikinci beynim. Notlar, görevler ve oturum</text><text x="36" y="238" class="s" style="font-size:19px" fill="#AEB6C4">kayıtları Markdown'da; Claude Code ve Codex her</text><text x="36" y="266" class="s" style="font-size:19px" fill="#AEB6C4">oturuma aynı bağlamla başlıyor.</text>
+<circle cx="42" cy="303" r="6" fill="#8B95A7"/>
+<text x="56" y="308" class="s" style="font-size:16px" fill="#6B778C">Markdown  ·  Avenox Beyin tabanlı</text>
+</svg>
