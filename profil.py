@@ -311,7 +311,7 @@ def activity_card(calendar, glyphs):
             body.append(f'<g class="day level-{level}" data-date="{stamp}" data-count="{count}" data-week="{column}" data-row="{row}"{animation}><use class="point" href="#point-{level}" transform="translate({x:.2f} {y})"/></g>')
             current_month = (stamp.year, stamp.month)
             if current_month != month:
-                body.append(text_path(MONTHS[stamp.month - 1], 25, x - 2, 310, glyphs, .3))
+                body.append(text_path(MONTHS[stamp.month - 1], 25, x - 2, 310, glyphs, .45))
                 month = current_month
     body.append(f'<rect class="sweep" x="0" y="0" width="180" height="{height}" fill="url(#sweep)"/>')
     defs = '\n'.join(shapes) + '\n' + '\n'.join(f'<path id="{glyph_id(char)}" d="{glyphs["characters"][char]["path"]}"/>' for char in sorted(REQUIRED_CHARS) if char != ' ')
