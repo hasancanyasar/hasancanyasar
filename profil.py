@@ -81,9 +81,9 @@ def make_card(height, title, description, body, css='', defs='', metadata=None):
     return svg + '\n'
 
 
-def coretext(binary, text, size=40, weight='Regular'):
+def coretext(binary, text, size=40, weight='Regular', font=None):
     output = subprocess.check_output([
-        str(binary), str(ASSETS / f'fonts/Poppins-{weight}.ttf'), str(size), text,
+        str(binary), str(ASSETS / 'fonts' / (font or f'Poppins-{weight}.ttf')), str(size), text,
     ], text=True, timeout=30)
     result = json.loads(output)
     result['path'] = compact_path(result['path'])
@@ -129,6 +129,55 @@ def tools_card(binary):
                      '\n'.join(body), css, metadata=metadata)
 
 
+SIGNATURE = 'Hasan Can'
+SIGNATURE_FONT = 'MrsSaintDelafield-Regular.ttf'
+
+
+def signature_card(binary):
+    # Her harf ayrı yol: önce ince kontur çizilir, sonra dolgu oturur; harfler soldan sağa sırayla yazılır.
+    height, size, baseline = 300, 190, 196
+    full = coretext(binary, SIGNATURE, size, font=SIGNATURE_FONT)
+    left = 600 - full['width'] / 2
+    body = [stars(31, 1200, height, 40)]
+    previous, order = '', 0
+    body.append(f'<g transform="translate({left:.2f} {baseline}) scale(1 -1)">')
+    for end in range(1, len(SIGNATURE) + 1):
+        path = coretext(binary, SIGNATURE[:end], size, font=SIGNATURE_FONT)['path']
+        if not path.startswith(previous):
+            raise ValueError('İmza harfleri ayrıştırılamadı.')
+        glyph, previous = path[len(previous):], path
+        if not glyph:
+            continue
+        body.append(f'<path class="pen" pathLength="1" d="{glyph}" fill="url(#silver)" stroke="#d2dfed" stroke-width="1.1" style="animation-delay:{order * .26:.2f}s"/>')
+        order += 1
+    body.append('</g>')
+    # İmzanın altındaki tek çizgi; yazı bittikten sonra çekilir.
+    start, finish = left + 40, left + full['width'] + 10
+    span = finish - start
+    body.append(f'<path class="flourish" pathLength="1" d="M{start:.1f} 246 C{start + span * .3:.1f} 226 {start + span * .62:.1f} 262 {finish:.1f} 232" fill="none" stroke="url(#silver)" stroke-width="2.2" stroke-linecap="round" opacity=".7" style="animation-delay:{order * .26 + 1.3:.2f}s"/>')
+    css = '''
+.pen{stroke-dasharray:1;stroke-dashoffset:0;fill-opacity:1;stroke-opacity:0;animation:pen 14s ease-in-out infinite backwards}
+@keyframes pen{
+  0%{stroke-dashoffset:1;fill-opacity:0;stroke-opacity:1}
+  7%{stroke-dashoffset:0;fill-opacity:0;stroke-opacity:1}
+  11%{stroke-dashoffset:0;fill-opacity:1;stroke-opacity:0}
+  86%{stroke-dashoffset:0;fill-opacity:1;stroke-opacity:0}
+  93%,100%{stroke-dashoffset:0;fill-opacity:0;stroke-opacity:0}
+}
+.flourish{stroke-dasharray:1;stroke-dashoffset:0;animation:flourish 14s ease-in-out infinite backwards}
+@keyframes flourish{
+  0%{stroke-dashoffset:1;opacity:.7}
+  6%{stroke-dashoffset:0;opacity:.7}
+  78%{stroke-dashoffset:0;opacity:.7}
+  84%,100%{stroke-dashoffset:0;opacity:0}
+}
+'''
+    metadata = {'font': {'name': 'Mrs Saint Delafield', 'author': 'Alejandro Paul (Sudtipos)',
+                         'license': 'SIL Open Font License 1.1; assets/fonts/OFL-MrsSaintDelafield.txt'}}
+    return make_card(height, 'Hasan Can', 'El yazısıyla Hasan Can imzası: harfler soldan sağa sırayla yazılır, altına tek bir çizgi çekilir.',
+                     '\n'.join(body), css, metadata=metadata)
+
+
 def build_tools():
     # Mevcut Swift yardımcısını bir kez derle; --kontrol bunu çağırmaz.
     with tempfile.TemporaryDirectory(prefix='profil-coretext-') as directory:
@@ -138,9 +187,12 @@ def build_tools():
             str(ROOT / 'type.swift'), '-o', str(binary),
         ], check=True, timeout=60)
         svg = tools_card(binary)
-    validate_svg('tools.svg', svg)
-    atomic_write(ASSETS / 'tools.svg', svg)
-    print(f'tools.svg: {len(TOOLS)} simge, {len(svg.encode())} bayt. Atlanan: {", ".join(OMITTED)}.')
+        signature = signature_card(binary)
+    validate_svg('araclar.svg', svg)
+    validate_svg('imza.svg', signature)
+    atomic_write(ASSETS / 'araclar.svg', svg)
+    atomic_write(ASSETS / 'imza.svg', signature)
+    print(f'imza.svg: {len(signature.encode())} bayt. araclar.svg: {len(TOOLS)} simge, {len(svg.encode())} bayt. Atlanan: {", ".join(OMITTED)}.')
 
 
 def validate_svg(name, svg):
@@ -190,9 +242,9 @@ def check_profile():
     parser = ReadmeImages()
     readme = (ROOT / 'README.md').read_text(encoding='utf-8')
     parser.feed(readme)
-    expected = ['assets/identity.svg', 'assets/tools.svg', 'assets/horizon.svg']
+    expected = ['assets/identity.svg', 'assets/araclar.svg', 'assets/imza.svg', 'assets/horizon.svg']
     if [item.get('src') for item in parser.images] != expected:
-        raise ValueError('README görselleri identity, tools, horizon sırasında olmalı.')
+        raise ValueError('README görselleri identity, araclar, imza, horizon sırasında olmalı.')
     for image in parser.images:
         path = (ROOT / image['src']).resolve()
         if not path.is_file() or ROOT not in path.parents:
@@ -203,7 +255,7 @@ def check_profile():
         f'<p align="center"><img src="{image["src"]}" width="100%" alt="{escape(image["alt"], quote=True)}"></p>'
         for image in parser.images)
     if re.sub(r'\s+', '', readme) != re.sub(r'\s+', '', expected_markup):
-        raise ValueError('README yalnız ortalanmış üç görsel içermeli.')
+        raise ValueError('README yalnız ortalanmış dört görsel içermeli.')
     for path in sorted(ASSETS.rglob('*.svg')):
         svg = path.read_text(encoding='utf-8')
         validate_svg(path.name, svg)
