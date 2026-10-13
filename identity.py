@@ -146,7 +146,7 @@ if __name__ == '__main__':
         (ROOT / 'assets' / name).write_text(svg, encoding='utf-8')
     readme = (ROOT / 'README.md').read_text()
     assert re.findall(r'src="([^"]+)"', readme) == [
-        'assets/identity.svg', 'assets/tools.svg', 'assets/activity.svg', 'assets/horizon.svg',
+        'assets/identity.svg', 'assets/tools.svg', 'assets/horizon.svg',
     ]
     assert not any(word in readme.casefold() for word in ('projeler', 'terminal', 'veri', 'modelleri'))
     assert len(ET.fromstring(files['identity.svg']).findall('.//{http://www.w3.org/2000/svg}circle[@class="particle"]')) > 50
