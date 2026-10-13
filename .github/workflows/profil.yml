@@ -1,0 +1,45 @@
+name: Profil takımyıldızı
+
+on:
+  schedule:
+    - cron: '17 3 * * *'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: profil-activity
+  cancel-in-progress: false
+
+jobs:
+  activity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Depoyu al
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.repository.default_branch }}
+
+      - name: Katkı takvimini üret ve doğrula
+        env:
+          # İsteğe bağlı GH_TOKEN sırrı, sahibin read:user erişimli token'ı olabilir.
+          # Yoksa repo token'ıyla paylaşılan katkı takvimi sorgulanır.
+          GH_TOKEN: ${{ secrets.GH_TOKEN || github.token }}
+        run: |
+          python3 profil.py activity
+          python3 profil.py --kontrol
+
+      - name: Değişen takvimi kaydet
+        env:
+          PROFILE_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          if git diff --quiet -- assets/activity.svg; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add -- assets/activity.svg
+          git commit -m 'Profil katkı takvimini güncelle'
+          git push origin "HEAD:$PROFILE_BRANCH"
