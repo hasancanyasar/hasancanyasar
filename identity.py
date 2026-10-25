@@ -64,11 +64,24 @@ def wrap(width, height, title, description, body, css=''):
 def hero():
     css = '''
 .satellite{animation:orbit 26s linear infinite;transform-origin:866px 243px}
+.satellite2{animation:orbit 41s linear infinite reverse;transform-origin:866px 243px}
 @keyframes orbit{to{transform:rotate(360deg)}}
 .halo{animation:breathe 10s ease-in-out infinite}
 @keyframes breathe{50%{opacity:.4}}
+.pulse{transform-origin:866px 243px;animation:pulse 7s ease-out infinite}
+@keyframes pulse{0%{transform:scale(.84);opacity:.5}70%,100%{transform:scale(1.32);opacity:0}}
+.rise{animation:rise 1.4s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes rise{from{opacity:0;transform:translateY(26px)}}
+.shine{animation:shine 9s ease-in-out infinite}
+@keyframes shine{0%,22%{transform:translateX(-260px)}52%,100%{transform:translateX(980px)}}
+.rule{transform-origin:74px 394px;animation:rule 1.8s 1s cubic-bezier(.2,.8,.2,1) backwards}
+@keyframes rule{from{transform:scaleX(0)}}
+.meteor{opacity:0;animation:meteor 11s linear infinite}
+@keyframes meteor{0%{transform:translate(0,0);opacity:0}2%{opacity:.9}9%{transform:translate(-260px,150px);opacity:0}100%{opacity:0}}
 '''
+    name_paths = label('Hasan Can', 82, 69, 220, '#fff') + label('Yaşar', 82, 69, 318, '#fff')
     body = f'''
+<defs><linearGradient id="gleam" x2="1"><stop stop-color="#fff" stop-opacity="0"/><stop offset=".5" stop-color="#fff" stop-opacity=".55"/><stop offset="1" stop-color="#fff" stop-opacity="0"/></linearGradient></defs>
 {stars(8, 1200, 470, 92)}
 <ellipse class="halo" cx="866" cy="243" rx="167" ry="167" fill="none" stroke="#7b96b6" stroke-width="2" opacity=".3" filter="url(#soft)"/>
 <circle cx="866" cy="243" r="151" fill="url(#sphere)" stroke="#8497ae" stroke-opacity=".17"/>
@@ -78,14 +91,20 @@ def hero():
   <ellipse cx="866" cy="243" rx="242" ry="90" stroke-width=".5" opacity=".17"/>
 </g>
 <circle cx="866" cy="243" r="180" fill="none" stroke="#8b9db4" stroke-width=".6" opacity=".11"/>
+<circle class="pulse" cx="866" cy="243" r="151" fill="none" stroke="#9bb7d8" stroke-width="1.2"/>
 <g class="satellite"><circle cx="866" cy="63" r="3" fill="#c9d6e5"/><circle cx="866" cy="63" r="6" fill="#9bb7d8" opacity=".4" filter="url(#soft)"/></g>
-{label('Hasan Can', 82, 69, 220, 'url(#silver)')}
-{label('Yaşar', 82, 69, 318, 'url(#silver)')}
-<path d="M74 394H1126" stroke="#99adc6" stroke-width=".7" opacity=".13"/>
-{label('@hasancanyasar', 17, 74, 431, '#7f90a6', 'Regular')}
+<g class="satellite2"><circle cx="866" cy="451" r="2" fill="#a9bcd2"/></g>
+<g class="meteor" style="animation-delay:2s"><path d="M1060 40l-90 52" stroke="url(#orbit)" stroke-width="1.2"/><circle cx="1060" cy="40" r="1.6" fill="#e3ebf5"/></g>
+<g class="meteor" style="animation-delay:7.5s"><path d="M560 30l-70 40" stroke="url(#orbit)" stroke-width="1"/><circle cx="560" cy="30" r="1.3" fill="#e3ebf5"/></g>
+<clipPath id="name">{name_paths}</clipPath>
+<g class="rise" style="animation-delay:.2s">{label('Hasan Can', 82, 69, 220, 'url(#silver)')}</g>
+<g class="rise" style="animation-delay:.55s">{label('Yaşar', 82, 69, 318, 'url(#silver)')}</g>
+<g clip-path="url(#name)"><rect class="shine" x="0" y="140" width="150" height="200" fill="url(#gleam)"/></g>
+<path class="rule" d="M74 394H1126" stroke="#99adc6" stroke-width=".7" opacity=".13"/>
+<g class="rise" style="animation-delay:1.1s">{label('@hasancanyasar', 17, 74, 431, '#7f90a6', 'Regular')}</g>
 <g transform="translate(1109 424)" stroke="#b1c1d5" stroke-width="1" opacity=".7"><path d="M0 -6V6M-6 0H6"/><circle r="2.3" fill="#b1c1d5" stroke="none"/></g>
 '''
-    return wrap(1200, 470, 'Hasan Can Yaşar', 'Gece yarısı gri ve mavi galaksi; bir ışık yavaşça yörüngede dönüyor.', body, css)
+    return wrap(1200, 470, 'Hasan Can Yaşar', 'Gece yarısı gri ve mavi galaksi. Ad yukarı süzülerek beliriyor, üzerinden ışık geçiyor; gezegenin çevresinde iki ışık dönüyor, ara ara kayan yıldız geçiyor.', body, css)
 
 
 def horizon():
