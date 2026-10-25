@@ -8,14 +8,6 @@ import subprocess
 import xml.etree.ElementTree as ET
 
 ROOT = Path(__file__).parent
-GLYPHS = {
-    'h': ['X....', 'X....', 'X.XX.', 'XX..X', 'X...X', 'X...X', 'X...X'],
-    '4': ['...X.', '..XX.', '.X.X.', 'X..X.', 'XXXXX', '...X.', '...X.'],
-    's': ['.....', '.XXXX', 'X....', '.XXX.', '....X', 'X...X', '.XXX.'],
-    '0': ['.XXX.', 'X...X', 'X..XX', 'X.X.X', 'XX..X', 'X...X', '.XXX.'],
-}
-
-
 @lru_cache
 def outline(text, size, weight='SemiBold'):
     output = subprocess.check_output([
@@ -70,19 +62,7 @@ def wrap(width, height, title, description, body, css=''):
 
 
 def hero():
-    rng = random.Random(40)
-    particles = []
-    for gi, letter in enumerate('h4s0'):
-        for row, cells in enumerate(GLYPHS[letter]):
-            for col, on in enumerate(cells):
-                if on != 'X':
-                    continue
-                x, y = 743 + gi * 68 + col * 11, 209 + row * 11
-                dx, dy = rng.uniform(660, 1110) - x, rng.uniform(83, 395) - y
-                particles.append(f'<circle class="particle" cx="{x}" cy="{y}" r="2.55" style="--dx:{dx:.1f}px;--dy:{dy:.1f}px;animation-delay:-{rng.uniform(0, .65):.2f}s"/>')
     css = '''
-.particle{fill:#d4dfed;animation:gather 14s cubic-bezier(.4,0,.2,1) infinite}
-@keyframes gather{0%,13%,87%,100%{transform:translate(var(--dx),var(--dy));opacity:.22}35%,65%{transform:translate(0,0);opacity:1}}
 .satellite{animation:orbit 26s linear infinite;transform-origin:866px 243px}
 @keyframes orbit{to{transform:rotate(360deg)}}
 .halo{animation:breathe 10s ease-in-out infinite}
@@ -99,15 +79,13 @@ def hero():
 </g>
 <circle cx="866" cy="243" r="180" fill="none" stroke="#8b9db4" stroke-width=".6" opacity=".11"/>
 <g class="satellite"><circle cx="866" cy="63" r="3" fill="#c9d6e5"/><circle cx="866" cy="63" r="6" fill="#9bb7d8" opacity=".4" filter="url(#soft)"/></g>
-{''.join(particles)}
-{label('h4s0', 24, 74, 82, '#92a5bd')}
 {label('Hasan Can', 82, 69, 220, 'url(#silver)')}
 {label('Yaşar', 82, 69, 318, 'url(#silver)')}
 <path d="M74 394H1126" stroke="#99adc6" stroke-width=".7" opacity=".13"/>
 {label('@hasancanyasar', 17, 74, 431, '#7f90a6', 'Regular')}
 <g transform="translate(1109 424)" stroke="#b1c1d5" stroke-width="1" opacity=".7"><path d="M0 -6V6M-6 0H6"/><circle r="2.3" fill="#b1c1d5" stroke="none"/></g>
 '''
-    return wrap(1200, 470, 'Hasan Can Yaşar · h4s0', 'Gece yarısı gri ve mavi galaksi. Yıldızlar h4s0 yazısında toplanıp dağılıyor; bir ışık yavaşça yörüngede dönüyor.', body, css)
+    return wrap(1200, 470, 'Hasan Can Yaşar', 'Gece yarısı gri ve mavi galaksi; bir ışık yavaşça yörüngede dönüyor.', body, css)
 
 
 def horizon():
@@ -132,7 +110,7 @@ def avatar():
 {label('h', 356, 400, 523, 'url(#silver)', center=True)}
 <circle cx="514" cy="503" r="15" fill="#8aa8cc"/>
 '''
-    return wrap(800, 800, 'h4s0 profil simgesi', 'Gece yarısı gri galakside Poppins h harfi ve gümüş mavi bir yörünge.', body)
+    return wrap(800, 800, 'Hasan Can profil simgesi', 'Gece yarısı gri galakside Poppins h harfi ve gümüş mavi bir yörünge.', body)
 
 
 if __name__ == '__main__':
@@ -149,5 +127,5 @@ if __name__ == '__main__':
         'assets/identity.svg', 'assets/araclar.svg', 'assets/imza.svg', 'assets/horizon.svg',
     ]
     assert not any(word in readme.casefold() for word in ('projeler', 'terminal', 'veri', 'modelleri'))
-    assert len(ET.fromstring(files['identity.svg']).findall('.//{http://www.w3.org/2000/svg}circle[@class="particle"]')) > 50
+    assert 'h4s0' not in readme + ''.join(files.values())
     print('3 SVG üretildi; font, animasyon ve kişisel profil kontrolleri geçti.')
